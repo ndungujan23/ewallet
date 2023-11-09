@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SignInScreen extends ConsumerWidget {
   const SignInScreen({super.key});
@@ -65,7 +66,7 @@ class SignInScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
@@ -82,6 +83,7 @@ class SignInScreen extends ConsumerWidget {
                 TextField(
                   decoration: InputDecoration(
                     hintText: 'Email',
+                    label: Text('Email'),
                     suffixIcon: Icon(Icons.email),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -91,16 +93,44 @@ class SignInScreen extends ConsumerWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    suffixIcon: Icon(Icons.visibility_off),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                SizedBox(
+                  height: 60,
+                  child: TextField(
+                    obscureText: true,
+                    // style: Theme.of(context).textTheme.bodyMedium,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xfffafafa),
+                      hintText: 'Password',
+                      // label: Text('Password'),
+                      prefixIcon: Icon(Icons.lock, size: 20,),
+                      suffixIcon: Icon(Icons.visibility_off),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
                   ),
                 ),
+                const SizedBox(height:20.0),
+                // const Divider(),
+                const SizedBox(height:20.0),
+                GestureDetector(
+                  onTap: () {},
+                  child: Text.rich(
+                    TextSpan(
+                        text: 'Don\'t have an account? ',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        children: [
+                      TextSpan(
+                        text: 'Signup',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.inversePrimary
+                        )
+                      ),
+                    ]),
+                  ),
+                )
               ],
             ),
           )
