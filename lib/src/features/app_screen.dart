@@ -16,7 +16,7 @@ class MyApp extends ConsumerWidget {
     final themeModeState = ref.watch(themesProvider);
 
     final textTheme = Theme.of(context).textTheme;
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return MaterialApp.router(
       routerConfig: routerConfig,
       debugShowCheckedModeBanner: false,
