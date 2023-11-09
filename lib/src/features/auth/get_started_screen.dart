@@ -8,7 +8,7 @@ class GetStartedScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome'),
+        title: Text('Get started'),
       ),
       body: const SafeArea(
         child: Text('body'),

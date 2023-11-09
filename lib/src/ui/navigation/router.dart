@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:ebank/src/features/index.dart';
 import 'package:ebank/src/ui/widgets/index.dart';
 
@@ -11,25 +12,44 @@ enum AppRoute {
 
 // private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _sHomeNavigatorKey = GlobalKey<NavigatorState>();
-final _sExploreNavigatorKey = GlobalKey<NavigatorState>();
+final _dashboardNavigatorKey = GlobalKey<NavigatorState>();
 
 final goRouter = GoRouter(
-    initialLocation: '/',
+    initialLocation: '/auth',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: false,
-    routes: [
+    routes: <RouteBase>[
+      GoRoute(
+        path: '/auth',
+        builder: (context, state) {
+          return const GetStartedScreen();
+        },
+        routes: <RouteBase>[
+          GoRoute(
+            path: 'signin',
+            builder: (context, state) {
+              return const SignInScreen();
+            },
+          ),
+          GoRoute(
+            path: 'signup',
+            builder: (context, state) {
+              return const SignInScreen();
+            },
+          ),
+        ],
+      ),
       StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
             return LayoutDashboard(navigationShell: navigationShell);
           },
           branches: [
-            StatefulShellBranch(navigatorKey: _sHomeNavigatorKey, routes: [
+            StatefulShellBranch(navigatorKey: _dashboardNavigatorKey, routes: [
               GoRoute(
                 path: '/',
                 // name: AppRoute.dashboard.name,
                 pageBuilder: (context, state) =>
-                const NoTransitionPage(child: DashboardScreen()),
+                    const NoTransitionPage(child: DashboardScreen()),
               )
             ]),
           ])
