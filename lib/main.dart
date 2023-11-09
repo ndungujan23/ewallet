@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ebank/src/ui/navigation/index.dart';
 import 'package:ebank/src/ui/theme/themes.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   await runZonedGuarded(() async {
@@ -44,12 +45,17 @@ class MyApp extends ConsumerWidget {
     final routerConfig = ref.watch(goRouterProvider);
     final themeModeState = ref.watch(themesProvider);
 
+    final textTheme = Theme.of(context).textTheme;
     return MaterialApp.router(
       routerConfig: routerConfig,
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
-      theme: Themes.lightTheme,
-      darkTheme: Themes.darkTheme,
+      theme: Themes.lightTheme.copyWith(
+        textTheme: GoogleFonts.poppinsTextTheme(textTheme),
+      ),
+      darkTheme: Themes.darkTheme.copyWith(
+        textTheme: GoogleFonts.poppinsTextTheme(textTheme),
+      ),
       themeMode: themeModeState,
     );
   }
