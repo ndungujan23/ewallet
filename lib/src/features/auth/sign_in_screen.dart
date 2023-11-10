@@ -1,5 +1,7 @@
+import 'package:ebank/src/ui/utils/forms/providers/signin_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 final showPassProvider = StateProvider<bool>((ref) => true);
 final rememberPassProvider = StateProvider<bool>((ref) => true);
@@ -15,8 +17,12 @@ class SignInScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final email = TextEditingController();
+    final password = TextEditingController();
+
     final bool showPassState = ref.watch(showPassProvider);
     final bool rememberPassState = ref.watch(rememberPassProvider);
+    final signInProvider = ref.watch(signInFormNotifierProvider);
 
     void togglePassword() {
       ref.read(showPassProvider.notifier).update((state) => !state);
@@ -31,7 +37,7 @@ class SignInScreen extends ConsumerWidget {
     }
 
     void onSignIn() {
-      print("Sign in");
+      context.go('/');
     }
 
     return Scaffold(
