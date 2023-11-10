@@ -1,3 +1,4 @@
+import 'package:ebank/src/ui/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,7 +8,12 @@ class DashboardScreen extends ConsumerWidget {
 
   String greeting() {
     var hour = DateTime.now().hour;
-    return hour < 12 ? 'Morning' : hour < 17 ? 'Afternoon' : 'Morning';
+    var timeOfDay = hour <= 12
+        ? 'Morning'
+        : hour <= 17
+        ? 'Afternoon'
+        : 'Evening';
+    return "Good $timeOfDay 👋";
   }
 
   @override
@@ -15,13 +21,7 @@ class DashboardScreen extends ConsumerWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        // backgroundColor: Color(0x44000000),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: Text("Title"),
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-      ),
+      appBar: const TopBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
