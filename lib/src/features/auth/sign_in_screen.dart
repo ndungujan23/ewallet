@@ -7,6 +7,12 @@ final rememberPassProvider = StateProvider<bool>((ref) => true);
 class SignInScreen extends ConsumerWidget {
   const SignInScreen({super.key});
 
+  // Widget _formSection(BuildContext context) {
+  //   return Form(
+  //       child: child
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool showPassState = ref.watch(showPassProvider);
