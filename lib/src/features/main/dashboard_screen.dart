@@ -1,7 +1,6 @@
-import 'package:ebank/src/ui/widgets/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ebank/src/ui/widgets/index.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -21,7 +22,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         leading: Row(
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () { context.push('/profile'); },
               child: const CircleAvatar(
                 backgroundImage: AssetImage('assets/images/avatar.png'),
               ),

@@ -39,6 +39,12 @@ final goRouter = GoRouter(
           ),
         ],
       ),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) {
+          return const ProfileScreen();
+        },
+      ),
       StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
             return LayoutDashboard(navigationShell: navigationShell);
