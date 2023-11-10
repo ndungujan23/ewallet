@@ -15,7 +15,7 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _dashboardNavigatorKey = GlobalKey<NavigatorState>();
 
 final goRouter = GoRouter(
-    initialLocation: '/auth',
+    initialLocation: '/profile',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: false,
     routes: <RouteBase>[
