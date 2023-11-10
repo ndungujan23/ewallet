@@ -1,110 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
+final showPassProvider = StateProvider<bool>((ref) => true);
+final rememberPassProvider = StateProvider<bool>((ref) => true);
 
 class SignInScreen extends ConsumerWidget {
   const SignInScreen({super.key});
 
-  void onSignIn() {
-    print("Sign in");
-  }
-
-  Widget _footerSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Divider(),
-        Padding(
-          padding: const EdgeInsets.all(
-            12.0,
-          ),
-          child: Expanded(
-              child: SizedBox(
-            height: 50,
-            width: MediaQuery.of(context).size.width,
-            child: FilledButton(
-              onPressed: onSignIn,
-              style: FilledButton.styleFrom(
-                  backgroundColor:
-                      Theme.of(context).colorScheme.primaryContainer),
-              child: Text(
-                'Sign In',
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer),
-              ),
-            ),
-          )),
-        )
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bool showPassState = ref.watch(showPassProvider);
+    final bool rememberPassState = ref.watch(rememberPassProvider);
+
+    void togglePassword() {
+      ref.read(showPassProvider.notifier).update((state) => !state);
+    }
+
+    void toggleRememberMe() {
+      ref.read(rememberPassProvider.notifier).update((state) => !state);
+    }
+
+    void onSignUp() {
+      print('Do nothing');
+    }
+
+    void onSignIn() {
+      print("Sign in");
+    }
+
     return Scaffold(
       appBar: AppBar(),
-      bottomNavigationBar: _footerSection(context),
       body: SafeArea(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
+        child: SingleChildScrollView(
+          child: Container(
             padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'Welcome back 👋',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onBackground,
-                          fontSize: 26,
-                        ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    'Please enter your email and password to sign in',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 45,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    label: Text('Email'),
-                    suffixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 59),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      height: 100,
+                      width: 100,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20.0,
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Text(
+                      'Welcome back 👋',
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            fontSize: 32,
+                            fontWeight: FontWeight.w700,
+                          ),
+                    ),
+                  ),
                 ),
-                SizedBox(
-                  height: 60,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 22.0,
+                  ),
                   child: TextField(
-                    obscureText: true,
-                    // style: Theme.of(context).textTheme.bodyMedium,
+                    // focusNode: FocusNode(),
+                    textInputAction: TextInputAction.next,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    ),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Color(0xfffafafa),
-                      hintText: 'Password',
-                      // label: Text('Password'),
-                      prefixIcon: Icon(Icons.lock, size: 20,),
-                      suffixIcon: Icon(Icons.visibility_off),
+                      fillColor: Theme.of(context).colorScheme.secondaryContainer,
+                      hintText: 'Username',
+                      prefixIcon: const Icon(
+                        Icons.email,
+                        size: 20,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none,
@@ -112,30 +89,123 @@ class SignInScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height:20.0),
-                // const Divider(),
-                const SizedBox(height:20.0),
-                GestureDetector(
-                  onTap: () {},
-                  child: Text.rich(
-                    TextSpan(
-                        text: 'Don\'t have an account? ',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        children: [
-                      TextSpan(
-                        text: 'Signup',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.inversePrimary
-                        )
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: TextField(
+                    obscureText: showPassState,
+                    // focusNode: FocusNode(),
+                    textInputAction: TextInputAction.done,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    ),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.secondaryContainer,
+                      hintText: 'Password',
+                      prefixIcon: const Icon(
+                        Icons.lock,
+                        size: 20,
                       ),
-                    ]),
+                      suffixIcon: IconButton(
+                        icon: showPassState
+                            ? const Icon(Icons.visibility_off)
+                            : const Icon(Icons.visibility),
+                        onPressed: togglePassword,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
                   ),
-                )
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 26.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Checkbox(
+                            value: rememberPassState,
+                            onChanged: (v) {
+                              toggleRememberMe();
+                            },
+                          ),
+                          GestureDetector(
+                            onTap: toggleRememberMe,
+                            child: Text(
+                              "Remember me",
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .inverseSurface),
+                            ),
+                          )
+                        ],
+                      ),
+                      Text(
+                        "Forgot password ?",
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.inverseSurface),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 34.0),
+                  child: SizedBox(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    child: FilledButton(
+                      onPressed: onSignIn,
+                      style: FilledButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primaryContainer),
+                      child: Text(
+                        'Sign In',
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer),
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: GestureDetector(
+                    onTap: onSignUp,
+                    child: Text.rich(
+                      TextSpan(
+                          text: 'Don\'t have an account? ',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.inverseSurface
+                          ),
+                          children: [
+                            TextSpan(
+                                text: 'Sign up',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .inversePrimary)),
+                          ]),
+                    ),
+                  ),
+                ),
               ],
             ),
-          )
-        ],
-      )),
+          ),
+        ),
+      ),
     );
   }
 }
