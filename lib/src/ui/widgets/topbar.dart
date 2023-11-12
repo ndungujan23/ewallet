@@ -1,17 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class TopBar extends StatelessWidget implements PreferredSizeWidget {
+class TopBar extends StatefulWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
 
-  const TopBar({super.key}) : preferredSize = const Size.fromHeight(kToolbarHeight * 2);
+  const TopBar({super.key})
+      : preferredSize = const Size.fromHeight(kToolbarHeight * 2);
+
+  @override
+  State<TopBar> createState() => _TopBarState();
+}
+
+class _TopBarState extends State<TopBar> {
+  final TextEditingController _searchText = TextEditingController();
+  bool _isSearchVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void toggleSearch() {
+    setState(() {
+      _isSearchVisible = !_isSearchVisible;
+    });
+  }
+
+  PreferredSizeWidget _searchBox() {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(kToolbarHeight),
+      child: SizedBox(
+        height: 35,
+        child: TextFormField(
+          controller: _searchText,
+          textAlign: TextAlign.start,
+          textInputAction: TextInputAction.search,
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Theme.of(context).colorScheme.surface,
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: InkWell(
+              child: const Icon(Icons.close),
+              onTap: () {
+                _searchText.clear();
+              },
+            ),
+            hintText: 'Search...',
+            contentPadding: const EdgeInsets.all(0),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).colorScheme.primaryContainer,
-      padding: const EdgeInsets.all(8.0),
+      height: _isSearchVisible ? kToolbarHeight * 4 : kToolbarHeight * 2,
+      padding: const EdgeInsets.only(left: 12.0, right: 8.0, top: 8.0, bottom: 8.0),
       child: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         forceMaterialTransparency: true,
@@ -39,7 +94,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
               ),
         ),
         actions: [
-          GestureDetector(onTap: () {}, child: const Icon(Icons.search)),
+          GestureDetector(onTap: toggleSearch, child: const Icon(Icons.search)),
           IconButton(
             onPressed: () {},
             icon: const Badge(
@@ -51,32 +106,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(150),
-          child: SizedBox(
-            height: 35,
-            child: TextFormField(
-              textAlign: TextAlign.start,
-              // controller: _searchText,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: InkWell(
-                  child: const Icon(Icons.close),
-                  onTap: () {
-                    // _searchText.clear();
-                  },
-                ),
-                hintText: 'Search...',
-                contentPadding: const EdgeInsets.all(0),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-              ),
-            ),
-          ),
-        ),
+        bottom: _isSearchVisible ? _searchBox() : null,
       ),
     );
   }
