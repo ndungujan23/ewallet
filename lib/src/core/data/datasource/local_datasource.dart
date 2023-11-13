@@ -83,7 +83,13 @@ class LocalDataSource {
       where: "username = ? and password = ?",
       whereArgs: [username, password],
     );
-    return queryResult.isNotEmpty ? User.fromJson(queryResult.first) : null;
+    User? user = queryResult.isNotEmpty ? User.fromJson(queryResult.first) : null;
+    if (user != null) {
+      user = user.copyWith(isAuthenticated: true);
+      updateUser(user);
+      return user;
+    }
+    return null;
   }
 
   Future<User?> getCurrentUser() async {
