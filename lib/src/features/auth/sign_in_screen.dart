@@ -88,6 +88,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
             child: Form(
               key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
