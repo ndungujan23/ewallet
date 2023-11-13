@@ -15,7 +15,7 @@ class WalletAccountCard extends StatelessWidget {
       WalletAccountType.fixedDeposit => const Color(0xFFFF9C41),
       WalletAccountType.nominated => const Color(0xFF3B64F4),
       WalletAccountType.personal => const Color(0xFF03A5e1),
-      WalletAccountType.savings => const Color(0xFFF5F5F5),
+      WalletAccountType.savings => const Color(0xFF03A5e1),
     };
   }
 
@@ -29,7 +29,8 @@ class WalletAccountCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-            const Color(0xFFE96443),
+            // const Color(0xFFE96443),
+            walletColor(),
             walletColor(),
           ], begin: Alignment.topLeft, end: Alignment.bottomCenter),
           boxShadow: [
@@ -42,7 +43,8 @@ class WalletAccountCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(25),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(25.0),
+          // padding: const EdgeInsets.all(25.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
