@@ -29,30 +29,48 @@ class DashboardScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        greeting(),
-                        textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                      ),
-                      Text(
-                        'Amanda Alex',
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                            ),
-                      )
-                    ],
-                  ),
+                  // _greetingSection(context, greeting()),
+                  // const SizedBox(height: 15,),
+                  _walletListSection(context, greeting()),
                 ],
               ),
             )),
       ),
     );
   }
+}
+
+Widget _walletListSection(BuildContext context, String greeting) {
+  return Column(
+    children: [
+      AppBar(
+        titleSpacing: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              greeting,
+              textAlign: TextAlign.left,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+            ),
+            Text(
+              'Amanda Alex',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+            )
+          ],
+        ),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.add_outlined)),
+          GestureDetector(
+              onTap: () {}, child: const Icon(Icons.more_horiz_outlined)),
+        ],
+      ),
+    ],
+  );
 }

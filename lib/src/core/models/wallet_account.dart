@@ -3,11 +3,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'wallet_account.freezed.dart';
 
 enum WalletAccountType {
-  savings,
   current,
   fixedDeposit,
   nominated,
   personal,
+  savings,
 }
 
 @freezed
