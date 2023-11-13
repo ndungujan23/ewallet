@@ -48,6 +48,7 @@ class CustomFormField extends StatelessWidget {
           borderSide: BorderSide.none,
         ),
         errorText: error,
+        errorMaxLines: 3,
         errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.error,
