@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ebank/src/core/providers/index.dart';
 import 'package:card_swiper/card_swiper.dart';
 
 import 'package:ebank/src/ui/widgets/index.dart';
@@ -20,6 +21,8 @@ class DashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final walletState = ref.watch(walletProvider);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const TopBar(),
@@ -28,7 +31,8 @@ class DashboardScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            if (walletState.isLoading) const CircularProgressIndicator(),
+            if (!walletState.isLoading) Container(
               color: Theme.of(context).colorScheme.primaryContainer,
                 padding: const EdgeInsets.only(left: 16, right: 16, top: 24.0),
                 child: _walletListSection(context, greeting())),
