@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:ebank/src/core/index.dart';
+import 'package:ebank/src/ui/widgets/index.dart';
 
 final showPassProvider = StateProvider<bool>((ref) => true);
 final rememberPassProvider = StateProvider<bool>((ref) => true);
 
 class SignInScreen extends ConsumerStatefulWidget {
   static SignInScreen builder(
-      BuildContext context,
-      GoRouterState state,
-      ) => const SignInScreen();
-  const SignInScreen({ super.key });
+    BuildContext context,
+    GoRouterState state,
+  ) =>
+      const SignInScreen();
+
+  const SignInScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SignInScreenState();
@@ -37,23 +41,34 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     ref.read(rememberPassProvider.notifier).update((state) => !state);
   }
 
+  String? validateUsername(String? value) {
+    value = value ?? '';
+    if (!value.isValidUsernameOrEmail) {
+      return 'Username can only contain letters, numbers, underscores, and dashes or be a valid email';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    value = value ?? '';
+    if (!value.isValidPassword) {
+      return 'Password should contain 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character';
+    }
+    return null;
+  }
+
   void onSignUp() {
     debugPrint('Do nothing');
   }
 
   void onSignIn() {
     if (_formKey.currentState!.validate()) {
-      ref.watch(userRepositoryProvider).signIn(
-          _usernameController.text,
-          _passwordController.text
-      ).then((value) =>
-      {
-        if (value != null) {
-          context.go('/')
-        } else {
-          debugPrint('Nope!')
-        }
-      });
+      ref
+          .watch(userRepositoryProvider)
+          .signIn(_usernameController.text, _passwordController.text)
+          .then((value) => {
+                if (value != null) {context.go('/')} else {debugPrint('Nope!')}
+              });
     }
   }
 
@@ -63,7 +78,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     final bool rememberPassState = ref.watch(rememberPassProvider);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        forceMaterialTransparency: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -93,10 +111,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onBackground,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w700,
-                        ),
+                              color: Theme.of(context).colorScheme.onBackground,
+                              fontSize: 32,
+                              fontWeight: FontWeight.w700,
+                            ),
                       ),
                     ),
                   ),
@@ -104,58 +122,34 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     padding: const EdgeInsets.only(
                       top: 22.0,
                     ),
-                    child: TextFormField(
+                    child: CustomFormField(
+                      hintText: 'Username or Email',
                       controller: _usernameController,
-                      validator: (val) {
-                        if (!val!.isValidEmail) return 'Enter valid email';
-                        return null;
-                      },
+                      validator: validateUsername,
                       textInputAction: TextInputAction.next,
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondaryContainer,
-                      ),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Theme.of(context).colorScheme.secondaryContainer,
-                        hintText: 'Username',
-                        prefixIcon: const Icon(
-                          Icons.email,
-                          size: 20,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
-                        ),
+                      prefixIcon: const Icon(
+                        Icons.person,
+                        size: 20,
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
-                    child: TextField(
+                    child: CustomFormField(
+                      hintText: 'Password',
                       controller: _passwordController,
                       obscureText: showPassState,
+                      validator: validatePassword,
                       textInputAction: TextInputAction.done,
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondaryContainer,
+                      prefixIcon: const Icon(
+                        Icons.lock,
+                        size: 20,
                       ),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Theme.of(context).colorScheme.secondaryContainer,
-                        hintText: 'Password',
-                        prefixIcon: const Icon(
-                          Icons.lock,
-                          size: 20,
-                        ),
-                        suffixIcon: IconButton(
-                          icon: showPassState
-                              ? const Icon(Icons.visibility_off)
-                              : const Icon(Icons.visibility),
-                          onPressed: togglePassword,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
-                        ),
+                      suffixIcon: IconButton(
+                        icon: showPassState
+                            ? const Icon(Icons.visibility_off)
+                            : const Icon(Icons.visibility),
+                        onPressed: togglePassword,
                       ),
                     ),
                   ),
@@ -182,18 +176,22 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                     .textTheme
                                     .labelLarge
                                     ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .inverseSurface),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .inverseSurface),
                               ),
                             )
                           ],
                         ),
                         Text(
                           "Forgot password ?",
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              color:
-                              Theme.of(context).colorScheme.inverseSurface),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .inverseSurface),
                         )
                       ],
                     ),
@@ -207,13 +205,16 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         onPressed: onSignIn,
                         style: FilledButton.styleFrom(
                             backgroundColor:
-                            Theme.of(context).colorScheme.primaryContainer),
+                                Theme.of(context).colorScheme.primaryContainer),
                         child: Text(
                           'Sign In',
-                          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer),
                         ),
                       ),
                     ),
@@ -224,9 +225,13 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       child: Text.rich(
                         TextSpan(
                             text: 'Don\'t have an account? ',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.inverseSurface
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .inverseSurface),
                             children: [
                               TextSpan(
                                   text: 'Sign up',
@@ -234,9 +239,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                       .textTheme
                                       .bodyMedium
                                       ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .inversePrimary)),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .inversePrimary)),
                             ]),
                       ),
                     ),
