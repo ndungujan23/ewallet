@@ -14,6 +14,14 @@ class UserRepository {
     }
   }
 
+  Future<User?> signIn(String username, String password) async {
+    try {
+      return await _dataSource.signInUser(username, password);
+    } catch (e) {
+      throw '$e';
+    }
+  }
+
   Future<void> addUser(User user) async {
     try {
       await _dataSource.addUser(user);

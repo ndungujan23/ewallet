@@ -76,6 +76,16 @@ class LocalDataSource {
     );
   }
 
+  Future<User?> signInUser(String username, String password) async {
+    final database = await db;
+    List<Map<String, dynamic>> queryResult = await database.query(
+      tableUser,
+      where: "username = ? and password = ?",
+      whereArgs: [username, password],
+    );
+    return queryResult.isNotEmpty ? User.fromJson(queryResult.first) : null;
+  }
+
   Future<User?> getCurrentUser() async {
     final database = await db;
     List<Map<String, dynamic>> users = await database
@@ -124,6 +134,7 @@ class LocalDataSource {
     final List<Map<String, dynamic>> maps = await database.query(
       tableWalletAccount,
       orderBy: "id DESC",
+      limit: 5,
     );
     return List.generate(
       maps.length,
