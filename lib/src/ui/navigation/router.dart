@@ -31,12 +31,6 @@ final goRouter = GoRouter(
               return const SignInScreen();
             },
           ),
-          GoRoute(
-            path: 'signup',
-            builder: (context, state) {
-              return const SignUpScreen();
-            },
-          ),
         ],
       ),
       GoRoute(
