@@ -1,3 +1,5 @@
+import 'package:card_swiper/card_swiper.dart';
+import 'package:ebank/src/core/index.dart';
 import 'package:ebank/src/ui/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -71,6 +73,25 @@ Widget _walletListSection(BuildContext context, String greeting) {
               onTap: () {}, child: const Icon(Icons.more_horiz_outlined)),
         ],
       ),
+      const SizedBox(
+        height: 15.0,
+      ),
+      Swiper(
+        itemCount: 5,
+        layout: SwiperLayout.TINDER,
+        itemWidth: MediaQuery.of(context).size.width,
+        itemHeight: 340,
+        itemBuilder: (c, i) {
+          return WalletAccountCard(
+              account: WalletAccount(
+            id: i + 1,
+            accountNumber: '0950172588513',
+            amount: 200000,
+            type: WalletAccountType.savings,
+            validityPeriod: DateTime.now(),
+          ));
+        },
+      )
     ],
   );
 }
