@@ -25,6 +25,9 @@ dependencies:
   freezed_annotation: ^2.4.1
   fl_chart: ^0.64.0
   card_swiper: ^3.0.1
+  sqflite: ^2.3.0
+  equatable: ^2.0.5
+  path: any
 
 dev_dependencies:
   flutter_test:
