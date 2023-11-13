@@ -1,1 +1,1 @@
-export 'data/models/wallet_account.dart';
+export 'data/index.dart';
