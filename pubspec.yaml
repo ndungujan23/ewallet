@@ -24,6 +24,7 @@ dependencies:
   flutter_native_splash: ^2.3.4
   freezed_annotation: ^2.4.1
   fl_chart: ^0.64.0
+  card_swiper: ^3.0.1
 
 dev_dependencies:
   flutter_test:
