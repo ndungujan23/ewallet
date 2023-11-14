@@ -6,6 +6,12 @@ Welcome to **ebank**, a sleek and efficient banking wallet app built with Flutte
 
 Follow these steps to quickly set up and run the project on your device or emulator.
 
+The preview to the app can be found in the following folder:
+```plaintext
+docs/
+|- preview.mp4
+```
+
 **Step 1: Download the Project**
 
 ```bash
