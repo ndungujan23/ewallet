@@ -1,10 +1,10 @@
+import 'package:ebank/src/core/index.dart';
+import 'package:ebank/src/ui/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:ebank/src/core/index.dart';
-import 'package:ebank/src/ui/widgets/index.dart';
-
+final formValidationProvider = StateProvider<bool>((ref) => false);
 final showPassProvider = StateProvider<bool>((ref) => true);
 final rememberPassProvider = StateProvider<bool>((ref) => true);
 
@@ -62,6 +62,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   }
 
   void onSignIn() {
+    ref.read(formValidationProvider.notifier).update((state) => !state);
     if (_formKey.currentState!.validate()) {
       ref
           .read(userRepositoryProvider)
@@ -74,6 +75,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool formValidationState = ref.watch(formValidationProvider);
     final bool showPassState = ref.watch(showPassProvider);
     final bool rememberPassState = ref.watch(rememberPassProvider);
 
@@ -88,7 +90,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
             child: Form(
               key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
+              autovalidateMode: formValidationState
+                  ? AutovalidateMode.onUserInteraction
+                  : AutovalidateMode.disabled,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
