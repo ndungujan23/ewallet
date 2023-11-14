@@ -78,7 +78,15 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
         if (value != null) {
           context.go('/');
         } else {
-          debugPrint('Nope!');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Invalid credentials',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              backgroundColor: Theme.of(context).colorScheme.errorContainer,
+            ),
+          );
         }
       }).catchError((error) {
         toggleLoading(false);

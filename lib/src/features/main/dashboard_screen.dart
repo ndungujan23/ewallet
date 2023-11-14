@@ -129,8 +129,23 @@ Future<void> showAddWalletModal(BuildContext context) async {
 
         void onSubmit() {
           if (formKey.currentState!.validate()) {
-            print(accountNumberController.text);
-            print(accountTypeController.text);
+            final wallet = WalletAccount(
+                accountNumber: accountNumberController.text, 
+                amount: 0, 
+                type: WalletAccountType.fromValue(accountTypeController.text),
+            );
+            ref.read(walletProvider.notifier).addWallet(wallet).then((value) {
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Saved successfully',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                ),
+              );
+            });
           }
         }
 

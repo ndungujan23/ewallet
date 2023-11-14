@@ -164,7 +164,7 @@ class LocalDataSource {
     final List<Map<String, dynamic>> maps = await database.query(
       tableWalletAccount,
       orderBy: "id DESC",
-      limit: 5,
+      // limit: 5,
     );
     return List.generate(
       maps.length,
