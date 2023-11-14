@@ -57,7 +57,7 @@ class DashboardScreen extends ConsumerWidget {
                                 ),
                           ),
                           Text(
-                            '${user?.firstName ?? '--'} ${user?.lastName ?? '--'}',
+                            user?.username ?? '--',
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge

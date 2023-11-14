@@ -34,6 +34,15 @@ Generate necessary files using:
 flutter packages pub run build_runner build --delete-conflicting-outputs
 ```
 
+**Step 3: Sign In Credentials**
+
+Once navigated to the Sign In screen use the following credentials:
+
+```bash
+username: admin
+password: P@55word
+```
+
 ## Features
 
 - **Splash Screen:** A visually appealing splash screen to welcome users.
