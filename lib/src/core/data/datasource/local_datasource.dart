@@ -12,7 +12,8 @@ class LocalDataSource {
   final String tableWalletAccount = 'walletAccounts';
 
   Future<Database> get db async {
-    return _db ??= await _initDb();
+    _db ??= await _initDb();
+    return _db!;
   }
 
   LocalDataSource._();
@@ -40,6 +41,13 @@ class LocalDataSource {
           lastName TEXT NOT NULL,
           isAuthenticated INTEGER NOT NULL
       );
+    ''');
+    await db.execute('''
+        INSERT OR IGNORE INTO users (
+            username, email, password, phoneNumber, firstName, lastName, isAuthenticated
+        ) VALUES (
+            'admin', 'admin@example.com', 'P@55word', '+254712345678', 'John', 'Doe', 0
+        );
     ''');
     await db.execute('''
       CREATE TABLE IF NOT EXISTS walletAccounts (
@@ -83,7 +91,8 @@ class LocalDataSource {
       where: "username = ? and password = ?",
       whereArgs: [username, password],
     );
-    User? user = queryResult.isNotEmpty ? User.fromJson(queryResult.first) : null;
+    User? user =
+        queryResult.isNotEmpty ? User.fromJson(queryResult.first) : null;
     if (user != null) {
       user = user.copyWith(isAuthenticated: true);
       updateUser(user);

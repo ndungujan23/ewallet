@@ -64,7 +64,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   void onSignIn() {
     if (_formKey.currentState!.validate()) {
       ref
-          .watch(userRepositoryProvider)
+          .read(userRepositoryProvider)
           .signIn(_usernameController.text, _passwordController.text)
           .then((value) => {
                 if (value != null) {context.go('/')} else {debugPrint('Nope!')}
