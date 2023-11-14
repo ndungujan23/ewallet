@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+final loadingProvider = StateProvider<bool>((ref) => false);
 final formValidationProvider = StateProvider<bool>((ref) => false);
 final showPassProvider = StateProvider<bool>((ref) => true);
 final rememberPassProvider = StateProvider<bool>((ref) => true);
@@ -31,6 +32,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void toggleLoading(bool value) {
+    ref.read(loadingProvider.notifier).update((state) => value);
   }
 
   void togglePassword() {
@@ -64,17 +69,26 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   void onSignIn() {
     ref.read(formValidationProvider.notifier).update((state) => !state);
     if (_formKey.currentState!.validate()) {
+      toggleLoading(true);
       ref
           .read(userRepositoryProvider)
           .signIn(_usernameController.text, _passwordController.text)
-          .then((value) => {
-                if (value != null) {context.go('/')} else {debugPrint('Nope!')}
-              });
+          .then((value) {
+        toggleLoading(false);
+        if (value != null) {
+          context.go('/');
+        } else {
+          debugPrint('Nope!');
+        }
+      }).catchError((error) {
+        toggleLoading(false);
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool loadingState = ref.watch(loadingProvider);
     final bool formValidationState = ref.watch(formValidationProvider);
     final bool showPassState = ref.watch(showPassProvider);
     final bool rememberPassState = ref.watch(rememberPassProvider);
@@ -207,11 +221,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       height: 50,
                       width: MediaQuery.of(context).size.width,
                       child: FilledButton(
-                        onPressed: onSignIn,
+                        onPressed: loadingState ? null : onSignIn,
                         style: FilledButton.styleFrom(
                             backgroundColor:
                                 Theme.of(context).colorScheme.primaryContainer),
-                        child: Text(
+                        child: loadingState ? const CircularProgressIndicator() : Text(
                           'Sign In',
                           style: Theme.of(context)
                               .textTheme
