@@ -1,3 +1,4 @@
+import 'package:ebank/src/core/data/constants/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -78,8 +79,8 @@ class _TopBarState extends State<TopBar> {
               onTap: () {
                 context.push('/profile');
               },
-              child: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/avatar.png'),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(avatarPlaceholders.first),
               ),
             ),
           ],

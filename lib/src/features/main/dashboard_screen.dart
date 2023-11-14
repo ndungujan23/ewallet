@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ebank/src/core/providers/index.dart';
-import 'package:card_swiper/card_swiper.dart';
 
+import 'package:ebank/src/core/providers/index.dart';
 import 'package:ebank/src/ui/widgets/index.dart';
 import 'package:ebank/src/core/index.dart';
 
