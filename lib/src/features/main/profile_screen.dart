@@ -1,8 +1,7 @@
+import 'package:ebank/src/core/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:ebank/src/core/index.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -60,15 +59,16 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   subtitle: Text(user?.phoneNumber ?? '--',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            // fontSize: 14,
-                            // fontWeight: FontWeight.w600,
                             letterSpacing: 0.20,
                           )),
                   trailing: IconButton(
                     onPressed: () {
                       context.go('/auth/signin');
                     },
-                    icon: Icon(Icons.logout, color: Theme.of(context).colorScheme.error,),
+                    icon: Icon(
+                      Icons.logout,
+                      color: Theme.of(context).colorScheme.error,
+                    ),
                   ),
                 ),
                 const SizedBox(
