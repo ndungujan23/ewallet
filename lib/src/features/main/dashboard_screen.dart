@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:ebank/src/core/index.dart';
 import 'package:ebank/src/core/providers/index.dart';
 import 'package:ebank/src/ui/widgets/index.dart';
-import 'package:ebank/src/core/index.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -31,11 +30,26 @@ class DashboardScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              color: Theme.of(context).colorScheme.primaryContainer,
-                padding: const EdgeInsets.only(left: 12, right: 12, top: 24.0, bottom: 24.0),
+                color: Theme.of(context).colorScheme.primaryContainer,
+                padding: const EdgeInsets.only(
+                    left: 12, right: 12, top: 24.0, bottom: 24.0),
                 child: _walletListSection(context, greeting())),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
+              height: 120,
+                padding: const EdgeInsets.only(
+                    left: 10, right: 12),
+              child: ListView.builder(
+                  // padding: EdgeInsets.only(left: 16, right: 8),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: walletState.wallets.length,
+                  itemBuilder: (context, index) {
+                    return WalletAccountCard(
+                        account: walletState.wallets.elementAt(index));
+                  }),
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
               child: TransactionsChart(),
             ),
           ],
@@ -83,7 +97,9 @@ Widget _walletListSection(BuildContext context, String greeting) {
       const SizedBox(
         height: 15.0,
       ),
-      const BalanceCard(balance: 1000,),
+      const BalanceCard(
+        balance: 1000,
+      ),
     ],
   );
 }
