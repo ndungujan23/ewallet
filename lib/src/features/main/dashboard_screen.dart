@@ -1,5 +1,4 @@
 import 'package:ebank/src/core/index.dart';
-import 'package:ebank/src/core/providers/index.dart';
 import 'package:ebank/src/ui/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,33 +45,51 @@ class DashboardScreen extends ConsumerWidget {
                           Text(
                             greeting(),
                             textAlign: TextAlign.left,
-                            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.onBackground,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                ),
                           ),
                           Text(
                             '${user?.firstName ?? '--'} ${user?.lastName ?? '--'}',
-                            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).colorScheme.onBackground,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                ),
                           )
                         ],
                       ),
                       actions: [
-                        IconButton(onPressed: () {}, icon: const Icon(Icons.add_outlined)),
+                        IconButton(
+                            onPressed: () async {
+                              await showAddWalletModal(context);
+                            },
+                            icon: const Icon(Icons.add_outlined)),
                         GestureDetector(
-                            onTap: () {}, child: const Icon(Icons.more_horiz_outlined)),
+                            onTap: () {},
+                            child: const Icon(Icons.more_horiz_outlined)),
                       ],
                     ),
                     const SizedBox(
                       height: 15.0,
                     ),
-                    const BalanceCard(
+                    BalanceCard(
                       balance: 1000,
+                      onAdd: () async {
+                        await showAddWalletModal(context);
+                      },
                     ),
                   ],
                 )),
@@ -98,4 +115,80 @@ class DashboardScreen extends ConsumerWidget {
       )),
     );
   }
+}
+
+Future<void> showAddWalletModal(BuildContext context) async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Consumer(builder: (context, ref, _) {
+        final formKey = GlobalKey<FormState>();
+        final accountNumberController = TextEditingController();
+        var accountTypeController =
+            TextEditingController(text: WalletAccountType.current.name);
+
+        void onSubmit() {
+          if (formKey.currentState!.validate()) {
+            print(accountNumberController.text);
+            print(accountTypeController.text);
+          }
+        }
+
+        return AlertDialog(
+            title: const Text('Add Account'),
+            actions: [
+              TextButton(onPressed: onSubmit, child: const Text('Submit'))
+            ],
+            content: SizedBox(
+              width: 400,
+              // height: 400,
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CustomFormField(
+                      hintText: 'Account Number',
+                      controller: accountNumberController,
+                      validator: (val) {
+                        val = val ?? '';
+                        return val.trim().isNotEmpty ? null : 'Invalid Field value';
+                      },
+                    ),
+                    const SizedBox(height: 15,),
+                    DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          hintText: 'Account Type',
+                          filled: true,
+                          fillColor: Theme.of(context).colorScheme.secondaryContainer,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.error,
+                              )
+                          ),
+                        ),
+                        value: accountTypeController.text,
+                        onChanged: (String? newValue) {
+                          accountTypeController = TextEditingController(text: newValue);
+                        },
+                        validator: (val) {
+                          val = val ?? '';
+                          return val.trim().isNotEmpty ? null : 'Invalid Field value';
+                        },
+                        items: WalletAccountType.values
+                            .map((WalletAccountType type) {
+                          return DropdownMenuItem<String>(
+                              value: type.name, child: Text(type.name));
+                        }).toList())
+                  ],
+                ),
+              ),
+            ));
+      });
+    },
+  );
 }
