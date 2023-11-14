@@ -35,7 +35,7 @@ class DashboardScreen extends ConsumerWidget {
             if (!walletState.isLoading) Container(
               color: Theme.of(context).colorScheme.primaryContainer,
                 padding: const EdgeInsets.only(left: 16, right: 16, top: 24.0),
-                child: _walletListSection(context, greeting())),
+                child: _walletListSection(context, '${greeting()} ${walletState.wallets.length}')),
             // _insightSection(context),
           ],
         ),

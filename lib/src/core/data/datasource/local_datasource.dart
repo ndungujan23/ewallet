@@ -57,6 +57,21 @@ class LocalDataSource {
           type TEXT NOT NULL
       );
     ''');
+    await db.execute('''
+        INSERT OR IGNORE INTO walletAccounts (
+            accountNumber, amount, type
+        ) VALUES (
+            '0112345678', 1000, 'current'
+        ), (
+            '0222345678', 2200, 'fixedDeposit'
+        ), (
+            '0332345678', 10000, 'nominated'
+        ), (
+            '0442345678', 40000, 'personal'
+        ), (
+            '0552345678', 60000, 'savings'
+        );
+    ''');
   }
 
   /*
