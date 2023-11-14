@@ -30,10 +30,9 @@ class DashboardScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (walletState.isLoading) const CircularProgressIndicator(),
-            if (!walletState.isLoading) Container(
+            Container(
               color: Theme.of(context).colorScheme.primaryContainer,
-                padding: const EdgeInsets.only(left: 16, right: 16, top: 24.0),
+                padding: const EdgeInsets.only(left: 12, right: 12, top: 24.0, bottom: 24.0),
                 child: _walletListSection(context, greeting())),
             // _insightSection(context),
           ],
@@ -81,22 +80,7 @@ Widget _walletListSection(BuildContext context, String greeting) {
       const SizedBox(
         height: 15.0,
       ),
-      // Swiper(
-      //   itemCount: 5,
-      //   layout: SwiperLayout.TINDER,
-      //   itemWidth: MediaQuery.of(context).size.width,
-      //   itemHeight: 340,
-      //   itemBuilder: (c, i) {
-      //     return WalletAccountCard(
-      //         account: WalletAccount(
-      //       id: i + 1,
-      //       accountNumber: '0950172588513',
-      //       amount: 200000,
-      //       type: WalletAccountType.savings,
-      //       validityPeriod: DateTime.now(),
-      //     ));
-      //   },
-      // )
+      const BalanceCard(balance: 1000,),
     ],
   );
 }
