@@ -36,7 +36,7 @@ class WalletAccount extends Equatable {
       'id': id,
       'accountNumber': accountNumber,
       'amount': amount,
-      'type': type,
+      'type': type.name,
     };
   }
 
