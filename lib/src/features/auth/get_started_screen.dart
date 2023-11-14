@@ -38,7 +38,7 @@ class GetStartedScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      'With Swift Pay, sending and receiving money has never been easier',
+                      'With Electronic Bank, sending and receiving money has never been easier',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontSize: 14,

@@ -87,7 +87,7 @@ class _TopBarState extends State<TopBar> {
         ),
         centerTitle: true,
         title: Text(
-          'SwiftPay',
+          'Ebank',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontSize: 24.0,
                 fontWeight: FontWeight.w700,
