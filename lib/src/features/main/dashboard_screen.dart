@@ -108,7 +108,7 @@ class DashboardScreen extends ConsumerWidget {
             Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
-              child: const TransactionsChart(),
+              child: const TransactionsChart(amount: 675,),
             ),
           ],
         ),
