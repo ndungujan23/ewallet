@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:ebank/src/core/index.dart';
+
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider).user;
+
     return Scaffold(
       appBar: AppBar(
           leading: IconButton(
@@ -17,7 +21,7 @@ class ProfileScreen extends ConsumerWidget {
               context.pop();
             },
           ),
-          centerTitle: true,
+          centerTitle: false,
           title: Text(
             'Profile',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -28,45 +32,48 @@ class ProfileScreen extends ConsumerWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+            padding: const EdgeInsets.only(top: 10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/avatar.png'),
-                      ),
+                ListTile(
+                  leading: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                            image: NetworkImage(avatarPlaceholders.first)),
+                        borderRadius: BorderRadius.circular(8),
+                        color: Theme.of(context).colorScheme.surfaceVariant),
+                    child: const SizedBox(
+                      height: 56,
+                      width: 56,
                     ),
-                    const SizedBox(width: 12,),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Jan Ndungu',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontSize: 24
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 1,
-                          ),
-                          Text('+254799959032',
-                              style: Theme.of(context).textTheme.bodySmall),
-                        ],
-                      ),
-                    ),
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
-                  ],
-                )
+                  ),
+                  title: Text(
+                    "${user?.firstName ?? '--'} ${user?.lastName ?? '--'}",
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                  ),
+                  subtitle: Text(user?.phoneNumber ?? '--',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            // fontSize: 14,
+                            // fontWeight: FontWeight.w600,
+                            letterSpacing: 0.20,
+                          )),
+                  trailing: IconButton(
+                    onPressed: () {
+                      context.go('/auth/signin');
+                    },
+                    icon: Icon(Icons.logout, color: Theme.of(context).colorScheme.error,),
+                  ),
+                ),
+                const SizedBox(
+                  height: 24.0,
+                ),
               ],
             ),
           ),

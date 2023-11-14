@@ -119,7 +119,7 @@ class LocalDataSource {
   Future<User?> getCurrentUser() async {
     final database = await db;
     List<Map<String, dynamic>> users = await database
-        .query(tableUser, where: 'isAuthenticated = ?', whereArgs: [1]);
+        .query(tableUser, where: 'username = ?', whereArgs: ['admin']);
     return users.isNotEmpty ? User.fromJson(users.first) : null;
   }
 
