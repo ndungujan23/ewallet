@@ -34,7 +34,10 @@ class DashboardScreen extends ConsumerWidget {
               color: Theme.of(context).colorScheme.primaryContainer,
                 padding: const EdgeInsets.only(left: 12, right: 12, top: 24.0, bottom: 24.0),
                 child: _walletListSection(context, greeting())),
-            // _insightSection(context),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
+              child: TransactionsChart(),
+            ),
           ],
         ),
       )),
