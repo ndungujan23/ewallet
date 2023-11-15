@@ -2,15 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'src/features/index.dart';
 
 void main() async {
   await runZonedGuarded(() async {
-    WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+    WidgetsFlutterBinding.ensureInitialized();
 
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,]);
 
@@ -33,6 +31,4 @@ void main() async {
     // * Log any errors to console
     debugPrint(error.toString());
   });
-
-  FlutterNativeSplash.remove();
 }
