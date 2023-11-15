@@ -71,9 +71,7 @@ Widget _footerContent(BuildContext context) {
               child: SizedBox(
                 height: 50,
                 child: OutlinedButton(
-                  onPressed: () {
-                    context.go('/auth/signup');
-                  },
+                  onPressed: () {},
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(
                         width: 1,
